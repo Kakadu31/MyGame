@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="30"
+   height="20"
+   id="svg2"
+   version="1.1"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
+   sodipodi:docname="fish.svg">
+  <defs
+     id="defs4">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3890">
+      <rect
+         style="fill:#999999;stroke:#808080;stroke-width:1.52839816;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="rect3892"
+         width="10.105136"
+         height="4.4063816"
+         x="-4.2587547"
+         y="12.784047"
+         transform="matrix(0.12704845,-0.99189651,0.77865791,0.6274487,0,0)" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3890-4">
+      <rect
+         style="fill:#999999;stroke:#808080;stroke-width:1.5284;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect3892-7"
+         width="10.105136"
+         height="4.4063816"
+         x="-4.2587547"
+         y="12.784047"
+         transform="matrix(0.12704845,-0.99189651,0.77865791,0.6274487,0,0)" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="15.839192"
+     inkscape:cx="12.52572"
+     inkscape:cy="7.5309153"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1553"
+     inkscape:window-height="782"
+     inkscape:window-x="1966"
+     inkscape:window-y="219"
+     inkscape:window-maximized="0"
+     inkscape:document-rotation="0"
+     inkscape:snap-global="false" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-1032.3622)">
+    <path
+       sodipodi:type="arc"
+       style="fill:#cccccc;stroke:#808080;stroke-width:1.09632;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path3822-1-5"
+       sodipodi:cx="-1058.3539"
+       sodipodi:cy="141.35858"
+       sodipodi:rx="3.2905557"
+       sodipodi:ry="2.4225914"
+       d="m -1055.1108,141.76863 a 3.2905557,2.4225914 0 0 1 -3.167,2.0119 3.2905557,2.4225914 0 0 1 -3.29,-1.90199 l 3.2139,-0.51996 z"
+       transform="matrix(-0.1480133,-0.98898537,-0.99992478,-0.01226498,0,0)"
+       sodipodi:start="0.17007809"
+       sodipodi:end="2.9252822"
+       inkscape:export-filename="E:\CodingStuff\ChatGPT-Game\Sprites\fish.png"
+       inkscape:export-xdpi="250.14508"
+       inkscape:export-ydpi="250.14508"
+       sodipodi:arc-type="slice" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#cccccc;stroke:#808080;stroke-width:1.09632;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path3822-1"
+       sodipodi:cx="1050.7689"
+       sodipodi:cy="-102.67372"
+       sodipodi:rx="3.2905557"
+       sodipodi:ry="2.4225914"
+       d="m 1054.012,-102.26368 a 3.2905557,2.4225914 0 0 1 -3.167,2.0119 3.2905557,2.4225914 0 0 1 -3.29,-1.90199 l 3.2139,-0.51995 z"
+       transform="matrix(-0.08294203,0.99655437,-0.99697612,0.07770858,0,0)"
+       sodipodi:start="0.17007809"
+       sodipodi:end="2.9252822"
+       inkscape:export-filename="E:\CodingStuff\ChatGPT-Game\Sprites\fish.png"
+       inkscape:export-xdpi="250.14508"
+       inkscape:export-ydpi="250.14508"
+       sodipodi:arc-type="slice" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#666666;stroke:#808080;stroke-width:1.079;stroke-miterlimit:4;stroke-dasharray:none"
+       id="path3000"
+       sodipodi:cx="14.642858"
+       sodipodi:cy="10.022322"
+       sodipodi:rx="7.5446429"
+       sodipodi:ry="2.96875"
+       d="m 22.1875,10.022322 a 7.5446429,2.96875 0 1 1 -15.0892854,0 7.5446429,2.96875 0 1 1 15.0892854,0 z"
+       transform="translate(-0.98214286,1032.0943)"
+       inkscape:export-filename="E:\CodingStuff\ChatGPT-Game\Sprites\fish.png"
+       inkscape:export-xdpi="250.14508"
+       inkscape:export-ydpi="250.14508" />
+    <path
+       style="fill:#999999;stroke:#808080;stroke-width:1.02661848px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 10.491071,1039.6324 0,4.6582"
+       id="path3770-9"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="E:\CodingStuff\ChatGPT-Game\Sprites\fish.png"
+       inkscape:export-xdpi="250.14508"
+       inkscape:export-ydpi="250.14508" />
+    <path
+       style="fill:#cccccc;stroke:#808080;stroke-width:1.09950470999999990px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 12.544642,1039.5878 0,5.3431"
+       id="path3770-6"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="E:\CodingStuff\ChatGPT-Game\Sprites\fish.png"
+       inkscape:export-xdpi="250.14508"
+       inkscape:export-ydpi="250.14508" />
+    <path
+       style="fill:#999999;stroke:#808080;stroke-width:1.07471895px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 14.6875,1039.676 0,5.1049"
+       id="path3770-9-5"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="E:\CodingStuff\ChatGPT-Game\Sprites\fish.png"
+       inkscape:export-xdpi="250.14508"
+       inkscape:export-ydpi="250.14508" />
+    <path
+       style="fill:#999999;stroke:#808080;stroke-width:1.02661848px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 16.875,1039.8991 0,4.6582"
+       id="path3770-9-1"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="E:\CodingStuff\ChatGPT-Game\Sprites\fish.png"
+       inkscape:export-xdpi="250.14508"
+       inkscape:export-ydpi="250.14508" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#cccccc;stroke:#808080;stroke-width:1.07900000000000000;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path3822"
+       sodipodi:cx="10.491072"
+       sodipodi:cy="6.2276783"
+       sodipodi:rx="1.8303572"
+       sodipodi:ry="4.21875"
+       d="M 12.29502,6.941741 A 1.8303572,4.21875 0 0 1 8.7033692,7.1331382 L 10.491072,6.2276783 z"
+       transform="matrix(0.03208513,1.7974807,-0.56510219,0.1020566,26.412726,1022.4175)"
+       sodipodi:start="0.17007809"
+       sodipodi:end="2.9252822"
+       inkscape:export-filename="E:\CodingStuff\ChatGPT-Game\Sprites\fish.png"
+       inkscape:export-xdpi="250.14508"
+       inkscape:export-ydpi="250.14508" />
+    <path
+       style="fill:#999999;stroke:#808080;stroke-width:0.93774235px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 18.616071,1040.2244 0,3.8866"
+       id="path3770-9-1-7"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="E:\CodingStuff\ChatGPT-Game\Sprites\fish.png"
+       inkscape:export-xdpi="250.14508"
+       inkscape:export-ydpi="250.14508" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#ffffff;stroke-width:1.079;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path3894"
+       sodipodi:cx="1029.8037"
+       sodipodi:cy="-154.05237"
+       sodipodi:rx="0.17857143"
+       sodipodi:ry="0.33482143"
+       d="m 1029.9797,-153.9957 a 0.17857143,0.33482143 0 0 1 -0.1719,0.27806 0.17857143,0.33482143 0 0 1 -0.1785,-0.26287 l 0.1744,-0.0719 z"
+       sodipodi:start="0.17007809"
+       sodipodi:end="2.9252822"
+       inkscape:export-filename="E:\CodingStuff\ChatGPT-Game\Sprites\fish.png"
+       inkscape:export-xdpi="250.14508"
+       inkscape:export-ydpi="250.14508"
+       sodipodi:arc-type="slice"
+       transform="rotate(98.010549)" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#cccccc;stroke:#808080;stroke-width:1.09632;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path3822-1-3"
+       sodipodi:cx="1057.2279"
+       sodipodi:cy="4.0029211"
+       sodipodi:rx="3.2905557"
+       sodipodi:ry="2.4225914"
+       d="m 1060.471,4.4129673 a 3.2905557,2.4225914 0 0 1 -3.167,2.011898 3.2905557,2.4225914 0 0 1 -3.29,-1.9019894 l 3.2139,-0.5199548 z"
+       transform="matrix(0.01784721,0.99984073,-0.98408047,0.17772344,0,0)"
+       sodipodi:start="0.17007809"
+       sodipodi:end="2.9252822"
+       inkscape:export-filename="E:\CodingStuff\ChatGPT-Game\Sprites\fish.png"
+       inkscape:export-xdpi="250.14508"
+       inkscape:export-ydpi="250.14508"
+       sodipodi:arc-type="slice" />
+    <ellipse
+       style="fill:#666666;stroke:#808080;stroke-width:1.079;stroke-miterlimit:4;stroke-dasharray:none"
+       id="path3000-6"
+       inkscape:export-filename="E:\CodingStuff\ChatGPT-Game\Sprites\fish.png"
+       inkscape:export-xdpi="250.14508"
+       inkscape:export-ydpi="250.14508"
+       cx="13.379699"
+       cy="1060.8368"
+       rx="7.5446429"
+       ry="2.96875" />
+    <path
+       style="fill:#999999;stroke:#808080;stroke-width:1.02662px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 10.210055,1058.3526 v 4.6582"
+       id="path3770-9-0"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="E:\CodingStuff\ChatGPT-Game\Sprites\fish.png"
+       inkscape:export-xdpi="250.14508"
+       inkscape:export-ydpi="250.14508" />
+    <path
+       style="fill:#cccccc;stroke:#808080;stroke-width:1.0995px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 12.263626,1058.308 v 5.3431"
+       id="path3770-6-5"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="E:\CodingStuff\ChatGPT-Game\Sprites\fish.png"
+       inkscape:export-xdpi="250.14508"
+       inkscape:export-ydpi="250.14508" />
+    <path
+       style="fill:#999999;stroke:#808080;stroke-width:1.07472px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 14.406484,1058.3962 v 5.1049"
+       id="path3770-9-5-4"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="E:\CodingStuff\ChatGPT-Game\Sprites\fish.png"
+       inkscape:export-xdpi="250.14508"
+       inkscape:export-ydpi="250.14508" />
+    <path
+       style="fill:#999999;stroke:#808080;stroke-width:1.02662px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 16.593985,1058.6193 v 4.6582"
+       id="path3770-9-1-4"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="E:\CodingStuff\ChatGPT-Game\Sprites\fish.png"
+       inkscape:export-xdpi="250.14508"
+       inkscape:export-ydpi="250.14508" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#cccccc;stroke:#808080;stroke-width:1.09632;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path3822-0"
+       sodipodi:cx="1061.5228"
+       sodipodi:cy="-4.0685906"
+       sodipodi:rx="3.2905557"
+       sodipodi:ry="2.4225914"
+       d="m 1064.7659,-3.6585445 a 3.2905557,2.4225914 0 0 1 -3.167,2.0118981 3.2905557,2.4225914 0 0 1 -3.2899,-1.9019894 l 3.2138,-0.5199548 z"
+       transform="matrix(0.01784721,0.99984073,-0.98408047,0.17772344,0,0)"
+       sodipodi:start="0.17007809"
+       sodipodi:end="2.9252822"
+       inkscape:export-filename="E:\CodingStuff\ChatGPT-Game\Sprites\fish.png"
+       inkscape:export-xdpi="250.14508"
+       inkscape:export-ydpi="250.14508"
+       sodipodi:arc-type="slice" />
+    <path
+       style="fill:#999999;stroke:#808080;stroke-width:0.937742px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 18.335056,1058.9446 v 3.8866"
+       id="path3770-9-1-7-0"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="E:\CodingStuff\ChatGPT-Game\Sprites\fish.png"
+       inkscape:export-xdpi="250.14508"
+       inkscape:export-ydpi="250.14508" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#cccccc;stroke:#808080;stroke-width:1.079;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path3822-1-8-2"
+       sodipodi:cx="10.491072"
+       sodipodi:cy="6.2276783"
+       sodipodi:rx="1.8303572"
+       sodipodi:ry="4.21875"
+       d="M 12.29502,6.941741 A 1.8303572,4.21875 0 0 1 10.533379,10.445301 1.8303572,4.21875 0 0 1 8.7033692,7.1331382 L 10.491072,6.2276783 Z"
+       transform="matrix(0.42617392,1.7465229,-0.52887781,0.22370582,13.746182,1042.0362)"
+       sodipodi:start="0.17007809"
+       sodipodi:end="2.9252822"
+       clip-path="url(#clipPath3890-4)"
+       inkscape:export-filename="E:\CodingStuff\ChatGPT-Game\Sprites\fish.png"
+       inkscape:export-xdpi="250.14508"
+       inkscape:export-ydpi="250.14508"
+       sodipodi:arc-type="slice" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#ffffff;stroke-width:1.079;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path3894-4"
+       sodipodi:cx="8.4243412"
+       sodipodi:cy="1060.2119"
+       sodipodi:rx="0.17857143"
+       sodipodi:ry="0.33482143"
+       d="m 8.6003361,1060.2686 a 0.17857143,0.33482143 0 0 1 -0.1718674,0.278 0.17857143,0.33482143 0 0 1 -0.1785375,-0.2628 l 0.17441,-0.072 z"
+       sodipodi:start="0.17007809"
+       sodipodi:end="2.9252822"
+       inkscape:export-filename="E:\CodingStuff\ChatGPT-Game\Sprites\fish.png"
+       inkscape:export-xdpi="250.14508"
+       inkscape:export-ydpi="250.14508"
+       sodipodi:arc-type="slice" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#ffffff;stroke-width:1.079;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path3894-0"
+       sodipodi:cx="1031.6931"
+       sodipodi:cy="-154.26637"
+       sodipodi:rx="0.17857143"
+       sodipodi:ry="0.33482143"
+       d="m 1031.8691,-154.2097 a 0.17857143,0.33482143 0 0 1 -0.1719,0.27806 0.17857143,0.33482143 0 0 1 -0.1785,-0.26287 l 0.1744,-0.0719 z"
+       sodipodi:start="0.17007809"
+       sodipodi:end="2.9252822"
+       inkscape:export-filename="E:\CodingStuff\ChatGPT-Game\Sprites\fish.png"
+       inkscape:export-xdpi="250.14508"
+       inkscape:export-ydpi="250.14508"
+       sodipodi:arc-type="slice"
+       transform="rotate(98.010549)" />
+  </g>
+</svg>
