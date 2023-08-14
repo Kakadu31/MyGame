@@ -28,8 +28,11 @@ class RippleSimulator:
         h, l, s = colorsys.rgb_to_hls(r / 255, g / 255, b / 255)
         # Generate color lookup table
         for value in np.linspace(-1, 1, 256):  # Precompute colors for all possible heights
-            new_l = (l+l*value)/2  # Adjust based on your color mapping function
-            new_r, new_g, new_b = colorsys.hls_to_rgb(h, new_l, s)  # Adjust the hue value (0.6) as needed
+            if l >= 0:
+                new_l = l+value*(1-l)  # Adjust based on your color mapping function
+            else:
+                new_l = l+value*(l)
+            new_r, new_g, new_b = colorsys.hls_to_rgb(h, new_l, s) 
             new_r, new_g, new_b = int(new_r * 255), int(new_g * 255), int(new_b * 255)
             self.color_lookup.append((new_r, new_g, new_b))
     
