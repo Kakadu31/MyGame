@@ -8,7 +8,7 @@ from plant import Algae
 pygame.init()
 
 #---Screen and effects---
-SCREEN_WIDTH = 800
+SCREEN_WIDTH = 900
 SCREEN_HEIGHT = 600
 CELL_SIZE = 12 #for effects like ripples and flows
 DAMPING = 0.98
@@ -25,9 +25,9 @@ fontFPS = pygame.font.Font(None, 36)  # You can adjust the font size as needed
 
 #Few values to add
 num_algae = 10
-rainfall = 0 #droplets per time intervall
+rainfall = 10 #droplets per time intervall
 rainfall_strength = 3 #strength of dingle droplet
-currentfluctuation_strength = 0.01
+currentfluctuation_strength = 0.03
 
 # Create the screen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))

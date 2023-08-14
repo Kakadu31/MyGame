@@ -19,7 +19,24 @@ class RippleSimulator:
 
         self.background = background
         self.time_passed = 0
-
+        
+        self.color_lookup = []  # Dictionary to store precomputed colors
+        self.generateColorMap()
+        
+    def generateColorMap(self):
+        r, g, b = self.background[0], self.background[1], self.background[2]
+        h, l, s = colorsys.rgb_to_hls(r / 255, g / 255, b / 255)
+        # Generate color lookup table
+        for value in np.linspace(-1, 1, 256):  # Precompute colors for all possible heights
+            new_l = (l+l*value)/2  # Adjust based on your color mapping function
+            new_r, new_g, new_b = colorsys.hls_to_rgb(h, new_l, s)  # Adjust the hue value (0.6) as needed
+            new_r, new_g, new_b = int(new_r * 255), int(new_g * 255), int(new_b * 255)
+            self.color_lookup.append((new_r, new_g, new_b))
+    
+    def get_color_for_height(self, height_value):
+        index = int((height_value + 1) * 127.5)  # Map height value to color lookup index
+        return self.color_lookup[index]
+    
     def add_ripple(self, x, y, strength):
         grid_x = x // self.cell_size
         grid_y = y // self.cell_size
@@ -49,8 +66,6 @@ class RippleSimulator:
         
     def update_heightmap_surface(self):
         self.heightmap_surface.fill(self.background)
-        r, g, b = self.background[0], self.background[1], self.background[2]
-        h, l, s = colorsys.rgb_to_hls(r/255, g/255, b/255)
         clipped_heightmap = np.clip(self.heightmap, -1, 1)
                 
         for y in range(self.grid_height):
@@ -58,10 +73,7 @@ class RippleSimulator:
                 heightmap_value = clipped_heightmap[y,x]
                 if heightmap_value != self.old_heightmap[y, x]:
                     self.old_heightmap[y, x] = heightmap_value
-                    new_l = (l+l*heightmap_value)/2
-                    new_r, new_g, new_b = colorsys.hls_to_rgb(h, new_l, s)
-                    new_r, new_g, new_b = int(new_r*255), int(new_g*255), int(new_b*255)
-                    color = (new_r, new_g, new_b)
+                    color = self.get_color_for_height(heightmap_value)
                     rect = pygame.Rect(x * self.cell_size, y * self.cell_size, self.cell_size, self.cell_size)
                     pygame.draw.rect(self.heightmap_surface, color, rect)  # Draw on buffer surface
     
@@ -70,7 +82,7 @@ class RippleSimulator:
         grid_y = int(y // self.cell_size)
         if 0 <= grid_x < self.grid_width and 0 <= grid_y < self.grid_height:
             return self.heightmap[grid_y, grid_x]
-        return 0  # Default height when outside the grid
+        return 0.0  # Default height when outside the grid
     
     def compute_colormap(self):
         r, g, b = self.background[0], self.background[1], self.background[2]

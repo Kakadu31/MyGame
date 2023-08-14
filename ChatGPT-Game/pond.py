@@ -18,13 +18,16 @@ class Pond:
         self.rainfall_strength = 5
         self.ripple_simulator = RippleSimulator(width, height, cell_size, 1/EffectFPS, damping, background)
         self.flow_field = self.flow_field = flowfield(self.width, self.height, cell_size, 1/EffectFPS, fluctuation_strength)
+        self.time_passed = 0
 
     def add_organism(self, organism):
         self.organisms.append(organism)
 
     def update(self, dt):
-        for i in range(self.rainfall):
-                self.add_ripple(random.randint(0, self.width),random.randint(0, self.height),self.rainfall_strength) # generate a random ripple
+        self.time_passed += dt
+        if self.time_passed >= 1/self.rainfall:
+            self.time_passed -= 1/self.rainfall
+            self.add_ripple(random.randint(0, self.width),random.randint(0, self.height),self.rainfall_strength) # generate a random ripple
         self.ripple_simulator.update(dt)
         self.flow_field.update(dt)
         for organism in self.organisms:
