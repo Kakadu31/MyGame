@@ -3,6 +3,7 @@ import random
 
 from pond import Pond
 from plant import Algae
+from sidepanel import SidePanel
 
 # Initialize Pygame
 pygame.init()
@@ -14,6 +15,8 @@ CELL_SIZE = 12 #for effects like ripples and flows
 DAMPING = 0.98
 EFFECT_FPS = 15
 FPS = 60
+
+SIDEPANEL_WIDTH = 200
 
 #---colors---
 WHITE = (255, 255, 255)
@@ -30,12 +33,16 @@ rainfall_strength = 3 #strength of dingle droplet
 currentfluctuation_strength = 0.03
 
 # Create the screen
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+screen = pygame.display.set_mode((SIDEPANEL_WIDTH + SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Fish and Algae Simulation")
+
+#Create the sidepanel
+side_panel = SidePanel(SCREEN_WIDTH, SIDEPANEL_WIDTH, SCREEN_HEIGHT)
 
 # Initialize the pond
 pond = Pond(backgroundColor,SCREEN_WIDTH, SCREEN_HEIGHT, CELL_SIZE, EFFECT_FPS, DAMPING, currentfluctuation_strength)
 pond.rain(rainfall, rainfall_strength)
+side_panel.add_environment(pond) #Link pond to the panel to interchange data
 
 # Create an instance of Algae and add it to the pond
 for c in range(num_algae):
@@ -54,13 +61,16 @@ while running:
     
     #clear the screen
     screen.fill(backgroundColor)
+    side_panel.render(clock)
         
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        side_panel.handle_event(event) #Pass events to sidepanel if not treated yet
             
     pond.update(dt)
     pond.draw(screen)
+    side_panel.draw(screen, SCREEN_WIDTH)
 
     # Render FPS text
     fps_text = fontFPS.render(f"FPS: {int(clock.get_fps())}", True, (255, 255, 255))

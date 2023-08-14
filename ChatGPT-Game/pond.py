@@ -25,9 +25,10 @@ class Pond:
 
     def update(self, dt):
         self.time_passed += dt
-        if self.time_passed >= 1/self.rainfall:
-            self.time_passed -= 1/self.rainfall
-            self.add_ripple(random.randint(0, self.width),random.randint(0, self.height),self.rainfall_strength) # generate a random ripple
+        if self.rainfall != 0:
+            if self.time_passed >= 1/self.rainfall:
+                self.time_passed -= 1/self.rainfall
+                self.add_ripple(random.randint(0, self.width),random.randint(0, self.height),self.rainfall_strength) # generate a random ripple
         self.ripple_simulator.update(dt)
         self.flow_field.update(dt)
         for organism in self.organisms:
@@ -38,7 +39,8 @@ class Pond:
     
     def rain(self, rainfall, rainfall_strength):
         self.rainfall = rainfall
-        self.rain_strength = rainfall_strength
+        self.rainfall_strength = rainfall_strength
+        print(str(self.rainfall) + " , " + str(self.rainfall_strength))
     
     def update_heightmap(self, damping):
         for y in range(self.grid_height):
@@ -53,7 +55,7 @@ class Pond:
                 self.heightmap[y, x] = new_height
 
     def draw(self, screen):
-        screen.fill(self.background)
+        screen.fill((0,0,0))
         
         self.ripple_simulator.draw(screen)
         
