@@ -22,7 +22,7 @@ class Pond:
 
     def add_organism(self, organism):
         self.organisms.append(organism)
-
+    
     def update(self, dt):
         self.time_passed += dt
         if self.rainfall != 0:
@@ -40,7 +40,6 @@ class Pond:
     def rain(self, rainfall, rainfall_strength):
         self.rainfall = rainfall
         self.rainfall_strength = rainfall_strength
-        print(str(self.rainfall) + " , " + str(self.rainfall_strength))
     
     def update_heightmap(self, damping):
         for y in range(self.grid_height):
@@ -54,9 +53,7 @@ class Pond:
                 new_height = np.mean(neighbor_heights) * damping
                 self.heightmap[y, x] = new_height
 
-    def draw(self, screen):
-        screen.fill((0,0,0))
-        
+    def draw(self, screen):        
         self.ripple_simulator.draw(screen)
         
         for organism in self.organisms:
