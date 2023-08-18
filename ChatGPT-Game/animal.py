@@ -3,8 +3,8 @@ import numpy as np
 import random
 
 sexes = ["male", "female"]
-fish_image_male = pygame.image.load("Sprites/fish2.png")
-fish_image_female = pygame.image.load("Sprites/fish2.png")
+fish_image_male = pygame.image.load("Sprites/fish2_male.png")
+fish_image_female = pygame.image.load("Sprites/fish2_female.png")
 
 # Define the Fish class
 class Animal(pygame.sprite.Sprite):
@@ -118,6 +118,10 @@ class Animal(pygame.sprite.Sprite):
 class Fish(Animal):
     def __init__(self, hunting_behaviour, x, y, environment):
         super().__init__(hunting_behaviour, fish_image_male, x, y, environment)
+        if (self.sex == "male"):
+            self.image = fish_image_male
+        else:
+            self.image = fish_image_female
         self.weight = 0.05
     
     def update(self, dt):
