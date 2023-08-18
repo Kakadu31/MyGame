@@ -16,6 +16,7 @@ class Pond:
         self.height = height
         self.rainfall = 0
         self.rainfall_strength = 5
+        self.cell_size = cell_size
         self.ripple_simulator = RippleSimulator(width, height, cell_size, 1/EffectFPS, damping, background)
         self.flow_field = self.flow_field = flowfield(self.width, self.height, cell_size, 1/EffectFPS, fluctuation_strength)
         self.time_passed = 0

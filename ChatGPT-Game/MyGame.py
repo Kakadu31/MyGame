@@ -31,7 +31,7 @@ fontFPS = pygame.font.Font(None, 36)  # You can adjust the font size as needed
 
 #Few values to add
 num_algae = 10
-num_fish = 10
+num_fish = 20
 rainfall = 10 #droplets per time intervall
 rainfall_strength = 3 #strength of dingle droplet
 currentfluctuation_strength = 0.03
@@ -43,13 +43,7 @@ pygame.display.set_caption("Fish and Algae Simulation")
 #Create the sidepanel
 side_panel = SidePanel(SCREEN_WIDTH, SIDEPANEL_WIDTH, SCREEN_HEIGHT)
 
-# Parameters for neural network and genetic algorithm
-input_size = 4  # Number of sensory inputs (positions of algae and fish)
-hidden_layers = [8,8]  # Number of neurons in hidden layers
-output_size = 4  # Number of possible actions
-  
 # Parameters for genetic algorithm
-population_size = 20
 generations = 50
         
 
@@ -74,14 +68,14 @@ for i in range(num_fish):
     fish_population.append(fish)
    
 # Initialize genetic algorithm
-ga = GeneticAlgorithm(fish_population, generations)
+ga = GeneticAlgorithm(fish_population, generations, pond)
 
 #pond.add_organism(Fish(None, random.randint(0, SCREEN_WIDTH),random.randint(0, SCREEN_HEIGHT), pond))  
 #--------------------------
 #--------Game loop---------
 #--------------------------
 simulation_frame = 0
-genetic_update_interval = 30
+genetic_update_interval = 60
 clock = pygame.time.Clock()
 running = True
 while running:
@@ -106,16 +100,11 @@ while running:
     pygame.display.flip()
 
     simulation_frame += 1
-    
+
     # Update genetic algorithm at specified intervals
     if simulation_frame % genetic_update_interval == 0:
-        for fish in ga.population:
-            # Perform fitness evaluation for genetic algorithm
-            # ...
-            
-            # Perform genetic algorithm operations (selection, crossover, mutation)
-            ga.evolve_population()
-            
-            print(f"Genetic Algorithm Update: Generation {ga.generations_completed}")
+        #for fish in ga.population:
+        ga.evolve_population()  
+        print(f"Genetic Algorithm Update: Generation {ga.generations_completed}")
 
 pygame.quit()
