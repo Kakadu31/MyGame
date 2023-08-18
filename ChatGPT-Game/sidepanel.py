@@ -1,4 +1,5 @@
 import pygame
+from animal import Animal
 
 class SidePanel:
     def __init__(self, screen_offset, width, height, font_size=32):
@@ -38,9 +39,10 @@ class SidePanel:
         self.line += 50
         
         for organism in self.environment.organisms:
-            text = self.fontS.render(f"R: {organism.rect}", True, (255,255,255))
-            self.surface.blit(text, (10, self.line))
-            self.line += 20
+            if isinstance(organism, Animal):
+                text = self.fontS.render(f"R: {organism.rect}", True, (255,255,255))
+                self.surface.blit(text, (10, self.line))
+                self.line += 20
         
         self.line += 50
         
