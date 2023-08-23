@@ -20,6 +20,7 @@ class Pond:
         self.ripple_simulator = RippleSimulator(width, height, cell_size, 1/EffectFPS, damping, background)
         self.flow_field = self.flow_field = flowfield(self.width, self.height, cell_size, 1/EffectFPS, fluctuation_strength)
         self.time_passed = 0
+        self.fov_surface = pygame.Surface((width, height), pygame.SRCALPHA)
 
     def add_organism(self, organism):
         self.organisms.append(organism)
@@ -42,6 +43,7 @@ class Pond:
         self.rainfall = rainfall
         self.rainfall_strength = rainfall_strength
     
+    
     def update_heightmap(self, damping):
         for y in range(self.grid_height):
             for x in range(self.grid_width):
@@ -57,5 +59,9 @@ class Pond:
     def draw(self, screen):        
         self.ripple_simulator.draw(screen)
         
+        self.fov_surface.fill((0, 0, 0, 00))
+        
         for organism in self.organisms:
             organism.draw(screen)
+        
+        screen.blit(self.fov_surface, (0,0))

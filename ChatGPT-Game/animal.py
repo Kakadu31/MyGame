@@ -1,6 +1,9 @@
 import pygame
 import numpy as np
-import random
+import random, math
+from neuralnetwork import NeuralNetwork
+from plant import Algae
+from cmath import pi
 
 sexes = ["male", "female"]
 fish_image_male = pygame.image.load("Sprites/fish2_male.png")
@@ -12,16 +15,29 @@ class Animal(pygame.sprite.Sprite):
         super().__init__()
         self.fitness = 0
         self.hunting_behaviour = hunting_behaviour
-        
+                   
         self.image = image
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
+        self.velocity = (0,0)
+        self.angle = math.pi
         self.environment = environment
+        
+        self.field_of_view_radius = 150
+        self.field_of_view_angle = math.radians(90)
+        self.fov_vertices = [self.rect.center,self.rect.center,self.rect.center]
+        self.show_fov = True
+        
+        self.nn_input_size = 8
+        self.nn_hidden_size = 8
+        self.nn_output_size = 2
+        self.neural_network = NeuralNetwork(self.nn_input_size, self.nn_hidden_size, self.nn_output_size)
         
         self.eatable = False
         self.sex = random.choice(sexes)
         self.age = 0
         self.weight = 0
+        self.speed = 0
         self.encountered_animals = []
         
         self.encounter_distance_threshold = 2*environment.cell_size
@@ -70,7 +86,30 @@ class Animal(pygame.sprite.Sprite):
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
+    
+    def update_fov_surface(self):
+        # Calculate the field of view vertices and draw the shape
+        self.fov_vertices = self.calculate_fov_vertices()
+        pygame.draw.polygon(self.environment.fov_surface, (255, 0, 0, 50), self.fov_vertices)
 
+    def calculate_fov_vertices(self):
+        # Calculate the vertices of the field of view triangle
+        num_vertexes = 9
+        vertexes = []
+        offset = (self.rect.width // 2, self.rect.height //2)
+        vertexes.append((self.rect.x + offset[0], self.rect.y+ offset[1]))
+        
+        c = -(num_vertexes-1)/2 
+        for i in range(num_vertexes):            
+            vertex = (
+                int(self.rect.x + offset[0] + self.field_of_view_radius * math.cos(self.angle + c*self.field_of_view_angle / (num_vertexes-1))),
+                int(self.rect.y + offset[1] + self.field_of_view_radius * math.sin(self.angle + c*self.field_of_view_angle / (num_vertexes-1))),
+            )
+            vertexes.append(vertex)
+            c += 1
+            i=i
+        return vertexes
+    
     def check_boundaries(self):
         self.rect.x = np.clip(self.rect.x, 10, self.environment.width - 11)
         self.rect.y = np.clip(self.rect.y, 10, self.environment.height - 11)
@@ -80,7 +119,62 @@ class Animal(pygame.sprite.Sprite):
             return True
         else:
             return False
+    
+    def detect_algae(self):
+        detected_algae = []
+        for organism in self.environment.organisms:
+            if (isinstance(organism, Algae)):
+                if self.point_in_polygon(organism.rect.center, self.fov_vertices):
+                    detected_algae.append((organism.rect.x, organism.rect.y))
+        return detected_algae
+        
+    def point_in_polygon_old(self, point, polygon):
+        # Create a temporary surface for the polygon
+        temp_surface = pygame.Surface((self.environment.width, self.environment.height), pygame.SRCALPHA)
+        pygame.draw.polygon(temp_surface, (0, 0, 0), polygon)
+    
+        # Check if the point is within the polygon
+        return temp_surface.get_at((int(point[0]), int(point[1]))) != (0, 0, 0, 0)
+    
+    def point_in_polygon(self, point, polygon):
+        x, y = point
+        odd_nodes = False
+        j = len(polygon) - 1
+    
+        for i in range(len(polygon)):
+            xi, yi = polygon[i]
+            xj, yj = polygon[j]
+            if yi < y and yj >= y or yj < y and yi >= y:
+                if xi + (y - yi) / (yj - yi) * (xj - xi) < x:
+                    odd_nodes = not odd_nodes
+            j = i
+        return odd_nodes
 
+    def move(self, dt):
+        detected_algae = self.detect_algae()
+        # Construct inputs for the neural network with detected algae positions
+        inputs = [self.rect.x, self.rect.y]
+        for i in range(int((self.nn_input_size-2)/2)):
+            if i < len(detected_algae):
+                inputs += detected_algae[i]
+            else:
+                inputs += [0, 0]  # Placeholder for missing algae
+        self.velocity = self.neural_network.feedforward(np.array(inputs))
+        
+        # Update fish position based on the velocity vector
+        self.rect.x += self.velocity[0]*dt*self.speed
+        self.rect.y += self.velocity[1]*dt*self.speed
+        
+        # Calculate the angle of the velocity vector
+        #velocity_angle = math.atan2(self.velocity[1], self.velocity[0])
+        
+        # Update fish sprite rotation
+        #angle_degrees = math.degrees(velocity_angle)  # Convert angle to degrees
+        #self.image = pygame.transform.rotate(self.image, -angle_degrees/100)
+        
+        # Update fish field of view angle and position
+        #self.field_of_view_angle = -angle_degrees  # Update the angle
+          
     def get_mating_partner(self):
         possible_partners = []
         #check for the other animals sex
@@ -88,14 +182,12 @@ class Animal(pygame.sprite.Sprite):
             if (other_animal.sex != self.sex)&(other_animal.is_ready_to_mate()):
                 possible_partners.append(other_animal)
         #if there is a suitable partner, return it, else return none.
-        print(possible_partners)
         if len(possible_partners) > 0:
             return np.random.choice(possible_partners, size=1, replace=False)[0]
         else: 
             return None
 
     def mate(self, partner, genetic_algorithm):
-        #print("mating")
         #create an offspring from both partners
         self.offspring = genetic_algorithm.crossover(self, partner)
         if np.random.rand() < 0.1:  # 10% chance of mutation
@@ -123,8 +215,10 @@ class Fish(Animal):
         else:
             self.image = fish_image_female
         self.weight = 0.05
+        self.speed = 15
     
     def update(self, dt):
+        self.move(dt)
         self.affected_by_heightmap(dt) #atm used for the rain
         self.affected_by_flow(dt)
         self.age += dt
@@ -133,7 +227,10 @@ class Fish(Animal):
             
     def draw(self, screen):
         screen.blit(self.image, self.rect.topleft)
-
+        
+        if self.show_fov:
+            self.update_fov_surface()
+    
 
 # Genetic Algorithm Setup
 class GeneticAlgorithm:
@@ -151,6 +248,15 @@ class GeneticAlgorithm:
         mutation_rate = 0.1
         animal.hunting_behaviour += np.random.uniform(-mutation_rate, mutation_rate)
         animal.hunting_behaviour = np.clip(animal.hunting_behaviour, 0, 1)
+        
+        #
+        #
+        #
+        #nn change!
+        #
+        #
+        #
+        
         
     def evolve_population(self):
         new_gen_flag = False

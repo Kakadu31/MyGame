@@ -31,13 +31,13 @@ fontFPS = pygame.font.Font(None, 36)  # You can adjust the font size as needed
 
 #Few values to add
 num_algae = 10
-num_fish = 20
+num_fish = 10
 rainfall = 10 #droplets per time intervall
 rainfall_strength = 3 #strength of dingle droplet
 currentfluctuation_strength = 0.03
 
 # Create the screen
-screen = pygame.display.set_mode((SIDEPANEL_WIDTH + SCREEN_WIDTH, SCREEN_HEIGHT))
+screen = pygame.display.set_mode((SIDEPANEL_WIDTH + SCREEN_WIDTH, SCREEN_HEIGHT),pygame.RESIZABLE, 32)
 pygame.display.set_caption("Fish and Algae Simulation")
 
 #Create the sidepanel
