@@ -1,5 +1,6 @@
 import pygame
-from animal import Animal
+from animal import Fish
+from plant import Algae
 
 class SidePanel:
     def __init__(self, screen_offset, width, height, font_size=32):
@@ -38,13 +39,28 @@ class SidePanel:
         self.surface.blit(text_organisms, (10, 10))
         self.line += 50
         
+        fish_counter = 0
+        algae_counter = 0
         for organism in self.environment.organisms:
-            if isinstance(organism, Animal):
-                text = self.fontS.render(f"R: {organism.rect}", True, (255,255,255))
-                self.surface.blit(text, (10, self.line))
-                self.line += 20
+            if isinstance(organism, Fish):
+                fish_counter += 1
+            if isinstance(organism, Algae):
+                algae_counter += 1   
         
-        self.line += 50
+        text = self.fontS.render(f"N_Fish: {fish_counter}", True, (255,255,255))
+        self.surface.blit(text, (10, self.line))
+        self.line += 20
+        text = self.fontS.render(f"N_Algae: {algae_counter}", True, (255,255,255))
+        self.surface.blit(text, (10, self.line))
+        self.line += 20
+        
+        self.line += 20
+        
+        text = self.fontS.render(f"Generation: {self.environment.generation}", True, (255,255,255))
+        self.surface.blit(text, (10, self.line))
+        self.line += 20
+        
+        ###
         
         text_slider_rain = self.font.render("Rain:", True, (255,255,255))
         self.surface.blit(text_slider_rain, (10, 300))
