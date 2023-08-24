@@ -26,10 +26,10 @@ class Animal(pygame.sprite.Sprite):
         self.angle = 0 #math.pi
         self.environment = environment
         
-        self.field_of_view_radius = 150
-        self.field_of_view_angle = math.radians(90)
+        self.field_of_view_radius = 250
+        self.field_of_view_angle = math.radians(70)
         self.fov_vertices = [self.rect.center,self.rect.center,self.rect.center]
-        self.show_fov = True
+        self.show_fov = False
         
         self.nn_input_size = 8
         self.nn_hidden_size = 8
@@ -144,7 +144,10 @@ class Animal(pygame.sprite.Sprite):
     def update_fov_surface(self):
         # Calculate the field of view vertices and draw the shape
         self.fov_vertices = self.calculate_fov_vertices()
-        pygame.draw.polygon(self.environment.fov_surface, (255, 0, 0, 50), self.fov_vertices)
+        color = (0, 0, 0, 2)
+        if self.show_fov:
+            color = (255, 0, 0, 50)
+        pygame.draw.polygon(self.environment.fov_surface, color, self.fov_vertices)
 
     def calculate_fov_vertices(self):
         # Calculate the vertices of the field of view triangle
@@ -178,9 +181,9 @@ class Animal(pygame.sprite.Sprite):
                     angle = math.atan2(-dy, dx)
                     
                     detected_algae.append((distance, angle))
-        #Clean list to only show the nearest 3 algae
+        #Clean list to only show the nearest 2 algae
         sorted(detected_algae, key=lambda x: x[0])
-        del detected_algae[3:]
+        del detected_algae[2:]
         return detected_algae
         
     def point_in_polygon(self, point, polygon):
@@ -282,8 +285,7 @@ class Fish(Animal):
     def draw(self, screen):
         screen.blit(self.image, self.rect.topleft)
         
-        if self.show_fov:
-            self.update_fov_surface()
+        self.update_fov_surface()
     
 
 # Genetic Algorithm Setup
