@@ -20,7 +20,7 @@ class Animal(pygame.sprite.Sprite):
         self.image = self.original_image.copy() 
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
-        self.velocity_magnitude = random.randint(0,1)
+        self.velocity_magnitude = random.randint(0,5)
         self.velocity_angle = random.randint(-3,3)
         #self.velocity = (0,0)
         self.angle = 0 #math.pi
@@ -93,14 +93,13 @@ class Animal(pygame.sprite.Sprite):
     def move(self, dt):
         #detect algae returns a tuple of the distance and angle of each algae
         detected_algae = self.detect_algae()
-        #print(detected_algae)
         # Construct inputs for the neural network with detected algae positions
         inputs = [self.velocity_magnitude, self.velocity_angle]
         for i in range(int((self.nn_input_size-2)/2)):
             if i < len(detected_algae):
                 inputs += detected_algae[i]
             else:
-                inputs += [0, 0]  # Placeholder for missing algae
+                inputs += [math.inf, 0]  # Placeholder for missing algae, far away with the angle 0
         #self.velocity = self.neural_network.feedforward(np.array(inputs))
         new_velocity_magnitude, new_velocity_angle = self.neural_network.feedforward(np.array(inputs))
 
@@ -176,6 +175,9 @@ class Animal(pygame.sprite.Sprite):
                     angle = math.atan2(-dy, dx)
                     
                     detected_algae.append((distance, angle))
+        #Clean list to only show the nearest 3 algae
+        sorted(detected_algae, key=lambda x: x[0])
+        del detected_algae[3:]
         return detected_algae
         
     def point_in_polygon(self, point, polygon):
