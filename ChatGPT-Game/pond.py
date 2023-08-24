@@ -5,10 +5,11 @@ import numpy as np
 import random
 from ripplesimulator import RippleSimulator
 from flowfield import flowfield
+from plant import Algae
 
 # Pond class
 class Pond:
-    def __init__(self, background, width, height, cell_size, EffectFPS, damping, fluctuation_strength):
+    def __init__(self, background, width, height, cell_size, EffectFPS, damping, fluctuation_strength,num_algae):
         self.organisms = []
         self.waves = []
         self.background = background
@@ -21,12 +22,16 @@ class Pond:
         self.flow_field = self.flow_field = flowfield(self.width, self.height, cell_size, 1/EffectFPS, fluctuation_strength)
         self.time_passed = 0
         self.fov_surface = pygame.Surface((width, height), pygame.SRCALPHA)
+        self.num_algae = num_algae
+        self.generation = 0
 
     def add_organism(self, organism):
         self.organisms.append(organism)
     
     def update(self, dt):
         self.time_passed += dt
+        if self.time_passed > 0.1:
+            self.spawn_food()
         if self.rainfall != 0:
             if self.time_passed >= 1/self.rainfall:
                 self.time_passed -= 1/self.rainfall
@@ -43,6 +48,18 @@ class Pond:
         self.rainfall = rainfall
         self.rainfall_strength = rainfall_strength
     
+    def spawn_food(self):
+        counter = 0
+        for organism in self.organisms:
+            if isinstance(organism, Algae):
+                counter += 1
+        if (counter != self.num_algae):
+            for i in range(self.num_algae-counter):
+                x = random.randint(0, self.width)
+                y = random.randint(0, self.height)
+                algae = Algae(x, y, self)
+                self.add_organism(algae)
+            
     
     def update_heightmap(self, damping):
         for y in range(self.grid_height):

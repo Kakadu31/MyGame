@@ -14,6 +14,7 @@ class Plant(pygame.sprite.Sprite):
         self.environment = environment
         self.eatable = False
         self.weight = 0
+        self.nutrition = 0
 
     def update(self, dt):
         pass
@@ -51,6 +52,10 @@ class Plant(pygame.sprite.Sprite):
         self.rect.x = np.clip(self.rect.x, 10, self.environment.width - 11)
         self.rect.y = np.clip(self.rect.y, 10, self.environment.height - 11)
         
+    def get_eaten(self):
+        self.kill()
+        self.environment.organisms.remove(self)   
+        
 class Algae(Plant):
     def __init__(self, x, y, environment):
         super().__init__(algae_image, x, y, environment)
@@ -58,6 +63,7 @@ class Algae(Plant):
         #image, rect, environment
         self.eatable = True
         self.weight = 0.005 # -> 1g
+        self.nutrition = 20
 
     def update(self, dt):
         self.affected_by_heightmap(dt) #atm used for the rain

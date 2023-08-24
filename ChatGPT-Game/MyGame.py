@@ -30,8 +30,8 @@ fontFPS = pygame.font.Font(None, 36)  # You can adjust the font size as needed
 
 
 #Few values to add
-num_algae = 10
-num_fish = 10
+num_algae = 20
+num_fish = 50
 rainfall = 10 #droplets per time intervall
 rainfall_strength = 3 #strength of dingle droplet
 currentfluctuation_strength = 0.03
@@ -48,16 +48,9 @@ generations = 50
         
 
 # Initialize the pond
-pond = Pond(backgroundColor,SCREEN_WIDTH, SCREEN_HEIGHT, CELL_SIZE, EFFECT_FPS, DAMPING, currentfluctuation_strength)
+pond = Pond(backgroundColor,SCREEN_WIDTH, SCREEN_HEIGHT, CELL_SIZE, EFFECT_FPS, DAMPING, currentfluctuation_strength, num_algae)
 pond.rain(rainfall, rainfall_strength)
 side_panel.add_environment(pond) #Link pond to the panel to interchange data
-
-# Create an instance of Algae and add it to the pond
-for i in range(num_algae):
-    x = random.randint(0, SCREEN_WIDTH)
-    y = random.randint(0, SCREEN_HEIGHT)
-    algae = Algae(x, y, pond)
-    pond.add_organism(algae)
 
 fish_population = []    
 for i in range(num_fish):
@@ -104,7 +97,7 @@ while running:
     # Update genetic algorithm at specified intervals
     if simulation_frame % genetic_update_interval == 0:
         #for fish in ga.population:
-        ga.evolve_population()  
-        print(f"Genetic Algorithm Update: Generation {ga.generations_completed}")
+        ga.evolve_population()
+        #print(f"Genetic Algorithm Update: Generation {ga.generations_completed}")
 
 pygame.quit()
