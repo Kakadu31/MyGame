@@ -20,7 +20,7 @@ class Animal(pygame.sprite.Sprite):
         self.image = self.original_image.copy() 
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
-        self.velocity_magnitude = random.randint(0,5)
+        self.velocity_magnitude = random.randint(1,5)
         self.velocity_angle = random.randint(-3,3)
         #self.velocity = (0,0)
         self.angle = 0 #math.pi
@@ -42,6 +42,10 @@ class Animal(pygame.sprite.Sprite):
         self.weight = 0
         self.speed = 0
         self.acceleration = 1
+        
+        self.energy = 50
+        self.max_energy = 100
+        self.passive_energy_drain = 1
         self.encountered_animals = []
         
         self.encounter_distance_threshold = 2*environment.cell_size
@@ -94,8 +98,8 @@ class Animal(pygame.sprite.Sprite):
         #detect algae returns a tuple of the distance and angle of each algae
         detected_algae = self.detect_algae()
         # Construct inputs for the neural network with detected algae positions
-        inputs = [self.velocity_magnitude, self.velocity_angle]
-        for i in range(int((self.nn_input_size-2)/2)):
+        inputs = [self.rect.center[0], self.rect.center[1], self.velocity_magnitude, self.velocity_angle]
+        for i in range(int((self.nn_input_size-4)/2)):
             if i < len(detected_algae):
                 inputs += detected_algae[i]
             else:
@@ -126,8 +130,7 @@ class Animal(pygame.sprite.Sprite):
    
     #--------------------
     #------Detection------  
-    #--------------------   
-    
+    #--------------------       
     def encounter(self, other_animal_population):
         # Iterate through other fish and check distances
         self.encountered_animals = []  # Clear the list of encountered fish
@@ -194,6 +197,24 @@ class Animal(pygame.sprite.Sprite):
             j = i
         return odd_nodes
     
+    
+    #--------------------
+    #-----Sustaining-----  
+    #--------------------
+    def eat(self, food):
+        self.energy += food.nutrition
+        self.energy = max(0.1, min(self.energy, self.max_energy))
+        food.get_eaten()
+    
+    def hunt(self):
+        for organism in self.environment.organisms:
+            if (isinstance(organism, Algae)) & self.rect.colliderect(organism.rect):
+                self.eat(organism)
+    
+    def die(self):
+        self.kill()
+        self.environment.organisms.remove(self)   
+          
     #--------------------
     #------Mating------  
     #--------------------            
@@ -249,8 +270,13 @@ class Fish(Animal):
         self.move(dt)
         self.affected_by_heightmap(dt) #atm used for the rain
         self.affected_by_flow(dt)
+        self.hunt()
+        
         self.age += dt
         self.update_pregnancy_status(dt)
+        self.energy -= dt*self.passive_energy_drain
+        if self.energy <= 0:
+            self.die()
 
             
     def draw(self, screen):
@@ -301,4 +327,5 @@ class GeneticAlgorithm:
                         animal.mate(partner, self)
                         new_gen_flag = True
         if new_gen_flag:
-            self.generations_completed += 1 
+            self.generations_completed += 1
+            self.environment.generation = self.generations_completed
