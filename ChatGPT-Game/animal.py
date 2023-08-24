@@ -15,11 +15,14 @@ class Animal(pygame.sprite.Sprite):
         super().__init__()
         self.fitness = 0
         self.hunting_behaviour = hunting_behaviour
-                   
-        self.image = image
+        
+        self.original_image = image        
+        self.image = self.original_image.copy() 
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
-        self.velocity = (0,0)
+        self.velocity_magnitude = random.randint(0,1)
+        self.velocity_angle = random.randint(-3,3)
+        #self.velocity = (0,0)
         self.angle = 0 #math.pi
         self.environment = environment
         
@@ -38,6 +41,7 @@ class Animal(pygame.sprite.Sprite):
         self.age = 0
         self.weight = 0
         self.speed = 0
+        self.acceleration = 1
         self.encountered_animals = []
         
         self.encounter_distance_threshold = 2*environment.cell_size
@@ -48,7 +52,13 @@ class Animal(pygame.sprite.Sprite):
         
     def update(self, dt):
         pass
-
+    
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
+        
+    #--------------------
+    #------Movement------  
+    #-------------------- 
     def affected_by_heightmap(self, dt):
         # Calculate the algae's new position based on the heightmap and lateral speed (weight)
         if self.weight != 0:
@@ -75,6 +85,49 @@ class Animal(pygame.sprite.Sprite):
             self.rect.y += flow_vector[1] * dt * speed
             self.check_boundaries()
 
+         
+    def check_boundaries(self):
+        self.rect.x = np.clip(self.rect.x, 10, self.environment.width - 11)
+        self.rect.y = np.clip(self.rect.y, 10, self.environment.height - 11)  
+        
+    def move(self, dt):
+        #detect algae returns a tuple of the distance and angle of each algae
+        detected_algae = self.detect_algae()
+        # Construct inputs for the neural network with detected algae positions
+        inputs = [self.velocity_magnitude, self.velocity_angle]
+        for i in range(int((self.nn_input_size-2)/2)):
+            if i < len(detected_algae):
+                inputs += detected_algae[i]
+            else:
+                inputs += [0, 0]  # Placeholder for missing algae
+        #self.velocity = self.neural_network.feedforward(np.array(inputs))
+        new_velocity_magnitude, new_velocity_angle = self.neural_network.feedforward(np.array(inputs))
+
+        # Smoothly adjust the velocity and angle
+        self.velocity_magnitude += (new_velocity_magnitude - self.velocity_magnitude) * self.acceleration
+        self.velocity_magnitude = max(0, self.velocity_magnitude)
+        if not math.isnan(new_velocity_angle):
+            self.velocity_angle += (new_velocity_angle - self.velocity_angle) * 1/(self.weight*100)
+
+        # Update fish position based on the velocity vector
+        dx = self.velocity_magnitude * math.cos(self.velocity_angle)
+        dy = self.velocity_magnitude * math.sin(self.velocity_angle)  # -dy because y-axis is inverted
+        self.rect.x += dx*dt*self.speed
+        self.rect.y += dy *dt*self.speed
+        
+        if not math.isnan(dx) and not math.isnan(dy) and (dx != 0 or dy != 0):
+            # Calculate the angle of the new velocity vector and update the fish's rotation if necessary
+            change_angle = math.atan2(dy, dx)
+            if not math.isclose(self.angle, change_angle, abs_tol=0.1):
+                self.image = pygame.transform.rotate(self.original_image, self.angle-int(math.degrees(change_angle)))
+                self.angle = change_angle
+                self.rect = self.image.get_rect(center=self.rect.center)
+        
+   
+    #--------------------
+    #------Detection------  
+    #--------------------   
+    
     def encounter(self, other_animal_population):
         # Iterate through other fish and check distances
         self.encountered_animals = []  # Clear the list of encountered fish
@@ -84,8 +137,6 @@ class Animal(pygame.sprite.Sprite):
                 if distance < self.encounter_distance_threshold:
                     self.encountered_animals.append(other_animal)
 
-    def draw(self, screen):
-        screen.blit(self.image, self.rect)
     
     def update_fov_surface(self):
         # Calculate the field of view vertices and draw the shape
@@ -110,24 +161,22 @@ class Animal(pygame.sprite.Sprite):
             i=i
         return vertexes
     
-    def check_boundaries(self):
-        self.rect.x = np.clip(self.rect.x, 10, self.environment.width - 11)
-        self.rect.y = np.clip(self.rect.y, 10, self.environment.height - 11)
-    
-    def is_ready_to_mate(self):
-        if (self.age >= self.procreation_age)&(self.pregnancy_time == 0):
-            return True
-        else:            return False
-    
     def detect_algae(self):
         detected_algae = []
         for organism in self.environment.organisms:
             if (isinstance(organism, Algae)):
                 if self.point_in_polygon(organism.rect.center, self.fov_vertices):
-                    detected_algae.append((organism.rect.x, organism.rect.y))
+                    # Calculate distance between the fish and the algae
+                    dx = organism.rect.centerx - self.rect.centerx
+                    dy = organism.rect.centery - self.rect.centery
+                    distance = math.sqrt(dx ** 2 + dy ** 2)
+                    
+                    # Calculate angle between the fish and the algae
+                    angle = math.atan2(-dy, dx)
+                    
+                    detected_algae.append((distance, angle))
         return detected_algae
         
-    
     def point_in_polygon(self, point, polygon):
         x, y = point
         odd_nodes = False
@@ -141,28 +190,10 @@ class Animal(pygame.sprite.Sprite):
                     odd_nodes = not odd_nodes
             j = i
         return odd_nodes
-
-    def move(self, dt):
-        detected_algae = self.detect_algae()
-        # Construct inputs for the neural network with detected algae positions
-        inputs = [self.rect.x, self.rect.y]
-        for i in range(int((self.nn_input_size-2)/2)):
-            if i < len(detected_algae):
-                inputs += detected_algae[i]
-            else:
-                inputs += [0, 0]  # Placeholder for missing algae
-        self.velocity = self.neural_network.feedforward(np.array(inputs))
-        
-        # Update fish position based on the velocity vector
-        self.rect.x += self.velocity[0]*dt*self.speed
-        self.rect.y += self.velocity[1]*dt*self.speed
-        
-        # Calculate the angle of the velocity vector and update the fish if necessary
-        velocity_angle = math.atan2(self.velocity[1], self.velocity[0])
-        if int(self.angle) != int(velocity_angle):
-            self.image = pygame.transform.rotate(self.image, -int(math.degrees(velocity_angle)))
-            self.angle = velocity_angle
-                  
+    
+    #--------------------
+    #------Mating------  
+    #--------------------            
     def get_mating_partner(self):
         possible_partners = []
         #check for the other animals sex
@@ -175,6 +206,12 @@ class Animal(pygame.sprite.Sprite):
         else: 
             return None
 
+    def is_ready_to_mate(self):
+        if (self.age >= self.procreation_age)&(self.pregnancy_time == 0):
+            return True
+        else:            
+            return False
+        
     def mate(self, partner, genetic_algorithm):
         #create an offspring from both partners
         self.offspring = genetic_algorithm.crossover(self, partner)
