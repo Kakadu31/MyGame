@@ -6,8 +6,8 @@ from plant import Algae
 from cmath import pi
 
 sexes = ["male", "female"]
-fish_image_male = pygame.image.load("Sprites/fish2_male.png")
-fish_image_female = pygame.image.load("Sprites/fish2_female.png")
+fish_image_male = pygame.image.load("Sprites/fish3_male.png")
+fish_image_female = pygame.image.load("Sprites/fish3_female.png")
 
 # Define the Fish class
 class Animal(pygame.sprite.Sprite):
@@ -20,7 +20,7 @@ class Animal(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
         self.velocity = (0,0)
-        self.angle = math.pi
+        self.angle = 0 #math.pi
         self.environment = environment
         
         self.field_of_view_radius = 150
@@ -117,8 +117,7 @@ class Animal(pygame.sprite.Sprite):
     def is_ready_to_mate(self):
         if (self.age >= self.procreation_age)&(self.pregnancy_time == 0):
             return True
-        else:
-            return False
+        else:            return False
     
     def detect_algae(self):
         detected_algae = []
@@ -128,13 +127,6 @@ class Animal(pygame.sprite.Sprite):
                     detected_algae.append((organism.rect.x, organism.rect.y))
         return detected_algae
         
-    def point_in_polygon_old(self, point, polygon):
-        # Create a temporary surface for the polygon
-        temp_surface = pygame.Surface((self.environment.width, self.environment.height), pygame.SRCALPHA)
-        pygame.draw.polygon(temp_surface, (0, 0, 0), polygon)
-    
-        # Check if the point is within the polygon
-        return temp_surface.get_at((int(point[0]), int(point[1]))) != (0, 0, 0, 0)
     
     def point_in_polygon(self, point, polygon):
         x, y = point
@@ -165,16 +157,12 @@ class Animal(pygame.sprite.Sprite):
         self.rect.x += self.velocity[0]*dt*self.speed
         self.rect.y += self.velocity[1]*dt*self.speed
         
-        # Calculate the angle of the velocity vector
-        #velocity_angle = math.atan2(self.velocity[1], self.velocity[0])
-        
-        # Update fish sprite rotation
-        #angle_degrees = math.degrees(velocity_angle)  # Convert angle to degrees
-        #self.image = pygame.transform.rotate(self.image, -angle_degrees/100)
-        
-        # Update fish field of view angle and position
-        #self.field_of_view_angle = -angle_degrees  # Update the angle
-          
+        # Calculate the angle of the velocity vector and update the fish if necessary
+        velocity_angle = math.atan2(self.velocity[1], self.velocity[0])
+        if int(self.angle) != int(velocity_angle):
+            self.image = pygame.transform.rotate(self.image, -int(math.degrees(velocity_angle)))
+            self.angle = velocity_angle
+                  
     def get_mating_partner(self):
         possible_partners = []
         #check for the other animals sex
