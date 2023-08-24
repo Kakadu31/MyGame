@@ -93,6 +93,7 @@ class Animal(pygame.sprite.Sprite):
     def move(self, dt):
         #detect algae returns a tuple of the distance and angle of each algae
         detected_algae = self.detect_algae()
+        #print(detected_algae)
         # Construct inputs for the neural network with detected algae positions
         inputs = [self.velocity_magnitude, self.velocity_angle]
         for i in range(int((self.nn_input_size-2)/2)):
