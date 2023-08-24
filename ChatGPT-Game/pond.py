@@ -59,7 +59,7 @@ class Pond:
     def draw(self, screen):        
         self.ripple_simulator.draw(screen)
         
-        self.fov_surface.fill((0, 0, 0, 00))
+        self.fov_surface.fill((0, 0, 0, 0))
         
         for organism in self.organisms:
             organism.draw(screen)
